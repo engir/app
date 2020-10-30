@@ -1,14 +1,15 @@
-import "core-js/features/map";
-import "core-js/features/set";
-import React from "react";
-import ReactDOM from "react-dom";
-import bridge from "@vkontakte/vk-bridge";
-import App from "./App";
+import 'core-js/es6/map';
+import 'core-js/es6/set';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import connect from '@vkontakte/vkui-connect';
+import App from './App';
+import registerServiceWorker from './sw';
 
-// Init VK  Mini App
-bridge.send("VKWebAppInit");
+// Init VK App
+connect.send('VKWebAppInit', {});
 
-ReactDOM.render(<App />, document.getElementById("root"));
-if (process.env.NODE_ENV === "development") {
-  import("./eruda").then(({ default: eruda }) => {}); //runtime download
-}
+// Service Worker For Cache
+registerServiceWorker();
+
+ReactDOM.render(<App />, document.getElementById('root'));

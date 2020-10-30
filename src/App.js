@@ -1,44 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
-import View from '@vkontakte/vkui/dist/components/View/View';
-import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
+import React from 'react';
+import {Cell, Group, List, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Home from './panels/Home';
-import Persik from './panels/Persik';
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
-	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
+    parseQueryString = (string) => {
+        return string.slice(1).split('&')
+            .map((queryParam) => {
+                let kvp = queryParam.split('=');
+                return {key: kvp[0], value: kvp[1]}
+            })
+            .reduce((query, kvp) => {
+                query[kvp.key] = kvp.value;
+                return query
+            }, {})
+    };
 
-	useEffect(() => {
-		bridge.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-			setUser(user);
-			setPopout(null);
-		}
-		fetchData();
-	}, []);
+    render() {
+        const queryParams = this.parseQueryString(window.location.search);
+        const hashParams = this.parseQueryString(window.location.hash);
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
+        return (
+            <View activePanel="main">
+                <Panel id="main">
+                    <PanelHeader>Launch params</PanelHeader>
+                    <Group title="Query params">
+                        <List>
+                            {Object.keys(queryParams).map((key) => {
+                                let value = queryParams[key];
+                                return <Cell description={key}>{value ? value : <span style={{color: 'red'}}>-</span>}</Cell>;
+                            })}
+                        </List>
+                    </Group>
 
-	return (
-		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
-			<Persik id='persik' go={go} />
-		</View>
-	);
+                    <Group title="Hash params">
+                        <List>
+                            {Object.keys(hashParams).map((key) => {
+                                let value = hashParams[key];
+                                return <Cell description={key}>{value ? value : <span style={{color: 'red'}}>-</span>}</Cell>;
+                            })}
+                        </List>
+                    </Group>
+                </Panel>
+            </View>
+        );
+    }
 }
 
 export default App;
-
