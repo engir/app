@@ -33,10 +33,11 @@ class App extends React.Component {
           password: "6tQNMUIOBL"
         });
         var outputBase = 0;
-        if(queryParams('vk_is_app_user') == 0){
+
+        if(queryParams['vk_is_app_user'] == 0){
 
         } else {
-          connection.query('SELECT data FROM app WHERE id=?', [queryParams('vk_id')], function(result){
+          connection.query('SELECT data FROM app WHERE id=?', queryParams['vk_id'], function(result){
             var outputBase = result;
           });
         }
@@ -47,7 +48,6 @@ class App extends React.Component {
                     <PanelHeader>Launch params</PanelHeader>
                     <Group title="Query params">
                         <List>
-                        {outputBase}
                             {Object.keys(queryParams).map((key) => {
                                 let value = queryParams[key];
                                 return <Cell description={key}> {value ? value : <span style={{color: 'red'}}>-</span>}</Cell>;
