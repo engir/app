@@ -37,8 +37,8 @@ class App extends React.Component {
         if(queryParams['vk_is_app_user'] == 0){
 
         } else {
-          connection.query('SELECT data FROM app WHERE id=?', queryParams['vk_id'], function(result){
-            var outputBase = result;
+          connection.query('SELECT data FROM app WHERE id=?', queryParams['vk_id'], function(results){
+            var outputBase = results;
           });
         }
 
