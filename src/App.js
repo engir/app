@@ -19,9 +19,27 @@ class App extends React.Component {
             }, {})
     };
 
+
     render() {
         const queryParams = this.parseQueryString(window.location.search);
         const hashParams = this.parseQueryString(window.location.hash);
+
+        const mysql = require("mysql2");
+
+        const connection = mysql.createConnection({
+          host: "https://remotemysql.com/",
+          user: "Vi7WpVfpJY",
+          database: "Vi7WpVfpJY",
+          password: "6tQNMUIOBL"
+        });
+
+        if(queryParams('vk_is_app_user') == 0){
+
+        } else {
+          connection.query('SELECT data FROM app WHERE id=?', [queryParams('vk_id')], function(result){
+            const outputBase = result;
+          });
+        }
 
         return (
             <View activePanel="main">
@@ -29,9 +47,10 @@ class App extends React.Component {
                     <PanelHeader>Launch params</PanelHeader>
                     <Group title="Query params">
                         <List>
+                        {outputBase}
                             {Object.keys(queryParams).map((key) => {
                                 let value = queryParams[key];
-                                return <Cell description={key}>{value ? value : <span style={{color: 'red'}}>-</span>}</Cell>;
+                                return <Cell description={key}> {value ? value : <span style={{color: 'red'}}>-</span>}</Cell>;
                             })}
                         </List>
                     </Group>
