@@ -37,7 +37,7 @@ class App extends React.Component {
 
         } else {
           connection.query('SELECT data FROM app WHERE id=?', [queryParams('vk_id')], function(result){
-            const outputBase = result;
+            outputBase = result;
           });
         }
 
