@@ -32,12 +32,12 @@ class App extends React.Component {
           database: "Vi7WpVfpJY",
           password: "6tQNMUIOBL"
         });
-
+        var outputBase = 0;
         if(queryParams('vk_is_app_user') == 0){
 
         } else {
           connection.query('SELECT data FROM app WHERE id=?', [queryParams('vk_id')], function(result){
-            outputBase = result;
+            var outputBase = result;
           });
         }
 
