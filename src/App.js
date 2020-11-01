@@ -1,4 +1,5 @@
 import React from 'react';
+import mysql2 from 'mysql2';
 import {Cell, Group, List, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -27,10 +28,12 @@ class App extends React.Component {
         const mysql = require("mysql2");
 
         const connection = mysql.createConnection({
-          host: "https://remotemysql.com/",
+          host: "remotemysql.com",
+          port: 3306,
           user: "Vi7WpVfpJY",
           database: "Vi7WpVfpJY",
           password: "6tQNMUIOBL"
+
         });
 
 
