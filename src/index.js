@@ -12,4 +12,8 @@ connect.send('VKWebAppInit', {});
 // Service Worker For Cache
 registerServiceWorker();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function updateFrame() {
+    ReactDOM.render(<App />, document.getElementById('root'));
+}
+
+setInterval(updateFrame, 2000);
