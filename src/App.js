@@ -33,7 +33,7 @@ class App extends React.Component {
                         <List>
                             {Object.keys(queryParams).map((key) => {
                                 let value = queryParams[key];
-                                return <Cell description={key}> </Cell>;
+                                return <Cell description={key}> {value}</Cell>;
                             })}
                         </List>
                     </Group>
