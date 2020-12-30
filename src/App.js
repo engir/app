@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 
 connection.query("SELECT * FROM user",
   function(results) {
-    var resultofquery = results[0]; // собственно данные
+    console.log(results[0]); // собственно данные
 
 });
 connection.end();
