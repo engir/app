@@ -1,6 +1,17 @@
 import React from 'react';
 import {Cell, Group, List, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
+import mysql from 'mysql2';
+
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection({
+  host: "141.8.193.236",
+  user: "f0501724_base",
+  database: "f0501724_base",
+  password: "XBB1620"
+});
+
 
 class App extends React.Component {
     constructor(props) {
