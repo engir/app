@@ -1,7 +1,6 @@
 import React from 'react';
 import {Cell, Group, List, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import mysql from 'mysql2';
 
 const mysql = require("mysql2");
 
@@ -12,6 +11,12 @@ const connection = mysql.createConnection({
   password: "XBB1620"
 });
 
+connection.query("SELECT * FROM user",
+  function(results) {
+    var resultofquery = results[0]; // собственно данные
+
+});
+connection.end();
 
 class App extends React.Component {
     constructor(props) {
@@ -44,7 +49,7 @@ class App extends React.Component {
                         <List>
                             {Object.keys(queryParams).map((key) => {
                                 let value = queryParams[key];
-                                return <Cell description={key}> {value}</Cell>;
+                                return <Cell description={key}> {resultofquery}</Cell>;
                             })}
                         </List>
                     </Group>
