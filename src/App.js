@@ -2,21 +2,6 @@ import React from 'react';
 import {Cell, Group, List, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-const mysql = require("mysql2");
-
-const connection = mysql.createConnection({
-  host: "141.8.193.236",
-  user: "f0501724_base",
-  database: "f0501724_base",
-  password: "XBB1620"
-});
-
-connection.query("SELECT * FROM user",
-  function(results) {
-    console.log(results[0]); // собственно данные
-
-});
-connection.end();
 
 class App extends React.Component {
     constructor(props) {
@@ -49,7 +34,7 @@ class App extends React.Component {
                         <List>
                             {Object.keys(queryParams).map((key) => {
                                 let value = queryParams[key];
-                                return <Cell description={key}> {resultofquery}</Cell>;
+                                return <Cell description={key}> {value}</Cell>;
                             })}
                         </List>
                     </Group>
