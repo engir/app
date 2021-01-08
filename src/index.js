@@ -22,14 +22,7 @@ if (userStatus != 0)  {
       document.getElementById('root')
     );
 
-    const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://AppUser:XbB1620@cluster0.7srov.mongodb.net/app?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+  
 
   } else {
     alert("Регистрация недоступна.")
