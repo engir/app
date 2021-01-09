@@ -8,33 +8,24 @@ import axios from 'axios';
 import registerServiceWorker from './sw';
 import { getValue } from './launchParams';
 
-var correctUser = false;
+console.log("Send request...");
 axios.post('https://appsec.vercel.app/api', {
-    url: window.location.search,
+    url: window.location.search
 }).then(function(responce) {
-  if (responce == 'success') {
-    var correctUser = true;
+  if(responce != null) {
+    if ( getValue(window.location.search, "vk_is_app_user") == 0) {
+      alert("Регистрируем...");
+    } else {
+      alert("Авторизация");
+    }
   } else {
-    var correctUser = false;
+      alert("[ValidationError] Validation is failed.");
   }
-
+  console.log(responce);
 }).catch(function (error) {
-    correctUser = false;
     console.log('Ошибка авторизации: ' + error);
 });
 
-if ( correctUser ) {
-
-  if (getValue(window.location.search, "vk_is_app_user") == 0) {
-
-    alert("Регистрируем...");
-
-  } else {
-
-    alert("Авторизация.");
-  }
-
-}
 
 
 
