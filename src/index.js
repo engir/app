@@ -6,37 +6,35 @@ import connect from '@vkontakte/vkui-connect';
 import bridge from '@vkontakte/vk-bridge';
 import axios from 'axios';
 import registerServiceWorker from './sw';
-import { verifyLaunchParams } from './launchParams';
+import { getValue } from './launchParams';
 
-function getValue(array, keyName) {
-  return array.filter(el => el.key === keyName)[0].value
-}
+var correctUser = false;
+axios.post('https://appsec.vercel.app/api', {
+    url: window.location.search,
+}).then(function(responce) {
+  if (responce == 'success') {
+    var correctUser = true;
+  } else {
+    var correctUser = false;
+  }
 
-const launchParams = window.location.search.slice(1);
-const userStatus = verifyLaunchParams(launchParams, "6O1XitpFwXIGtHaxvdD3");
-if (userStatus != 0)  {
+}).catch(function (error) {
+    correctUser = false;
+    console.log('Ошибка авторизации: ' + error);
+});
 
-  if (getValue(userStatus, "vk_is_app_user") == 1) {
-    ReactDOM.render(
-      <h1> Вы являетесь пользователем приложения. Ожидайте аутентификации. </h1>,
-      document.getElementById('root')
-    );
+if ( correctUser ) {
 
-  
+  if (getValue(window.location.search, "vk_is_app_user") == 0) {
+
+    alert("Регистрируем...");
 
   } else {
-    alert("Регистрация недоступна.")
+
+    alert("Авторизация.");
   }
 
 }
-
-
-
-
-
-
-
-
 
 
 

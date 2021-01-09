@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+
 
 /**
  * Верифицирует параметры запуска.
@@ -6,7 +6,7 @@ const crypto = require('crypto');
  * @param {string} secretKey
  * @returns {boolean}
  */
-export function verifyLaunchParams(searchOrParsedUrlQuery, secretKey) {
+export function getValue(searchOrParsedUrlQuery, keyName) {
   let sign;
   const queryParams = [];
 
@@ -52,28 +52,5 @@ export function verifyLaunchParams(searchOrParsedUrlQuery, secretKey) {
   if (!sign || queryParams.length === 0) {
     return false;
   }
-  // Снова создаём query в виде строки из уже отфильтрованных параметров.
-  const queryString = queryParams
-    // Сортируем ключи в порядке возрастания.
-    .sort((a, b) => a.key.localeCompare(b.key))
-    // Воссоздаём новый query в виде строки.
-    .reduce((acc, {key, value}, idx) => {
-      return acc + (idx === 0 ? '' : '&') + `${key}=${encodeURIComponent(value)}`;
-    }, '');
-
-  // Создаём хеш получившейся строки на основе секретного ключа.
-  const paramsHash = crypto
-    .createHmac('sha256', "6O1XjtpFwXlGtHaxvbD3")
-    .update(queryString)
-    .digest()
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=$/, '');
-
-  if (paramsHash === sign) {
-    return queryParams;
-  } else {
-    return 0;
-  }
+  return queryParams.filter(el => el.key === keyName)[0].value;
 }
